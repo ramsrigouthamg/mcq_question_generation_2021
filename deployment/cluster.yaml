@@ -1,0 +1,78 @@
+# cluster.yaml
+
+# AWS credentials (if not specified, ~/.aws/credentials will be checked) (can be overridden by $AWS_ACCESS_KEY_ID and $AWS_SECRET_ACCESS_KEY)
+aws_access_key_id: 
+aws_secret_access_key: 
+
+# EKS cluster name for cortex (default: cortex)
+cluster_name: cortex-question-generation-v1
+
+# AWS region
+region: us-west-2a
+
+# S3 bucket (default: <cluster_name>-<RANDOM_ID>)
+bucket: cortex-question-generation-v1 # cortex-<RANDOM_ID>
+
+# List of availability zones for your region (default: 3 random availability zones from the specified region)
+availability_zones: [us-west-2a,us-west-2b,us-west-2c]          # e.g. [us-west-2a, us-west-2b, us-west-2c]
+
+# instance type
+instance_type: t2.large
+
+# minimum number of instances (must be >= 0)
+min_instances: 1
+
+# maximum number of instances (must be >= 1)
+max_instances: 10
+
+# instance volume size (GB) (default: 50)
+instance_volume_size: 25
+
+# instance volume type [gp2, io1, st1, sc1] (default: gp2)
+instance_volume_type: gp2
+
+# instance volume iops (only applicable to io1 storage type) (default: 3000)
+# instance_volume_iops: 3000
+
+# whether the subnets used for EC2 instances should be public or private (default: "public")
+# if "public", instances will be assigned public IP addresses; if "private", instances won't have public IPs and a NAT gateway will be created to allow outgoing network requests
+subnet_visibility: public  # must be "public" or "private"
+
+# whether to include a NAT gateway with the cluster (a NAT gateway is necessary when using private subnets)
+# default value is "none" if subnet_visibility is set to "public"; "single" if subnet_visibility is "private"
+nat_gateway: none  # must be "none", "single", or "highly_available" (highly_available means one NAT gateway per availability zone)
+
+# whether the API load balancer should be internet-facing or internal (default: "internet-facing")
+# note: if using "internal", you must configure VPC Peering or an API Gateway VPC Link to connect to your APIs (see www.cortex.dev/guides/vpc-peering or www.cortex.dev/guides/api-gateway)
+api_load_balancer_scheme: internet-facing  # must be "internet-facing" or "internal"
+
+# whether the operator load balancer should be internet-facing or internal (default: "internet-facing")
+# note: if using "internal", you must configure VPC Peering to connect your CLI to your cluster operator (see www.cortex.dev/guides/vpc-peering)
+operator_load_balancer_scheme: internet-facing  # must be "internet-facing" or "internal"
+
+# CloudWatch log group for cortex (default: <cluster_name>)
+log_group: cortex-question-generation-v1
+
+# whether to use spot instances in the cluster (default: false)
+# see https://cortex.dev/v/0.16/cluster-management/spot-instances for additional details on spot configuration
+spot: true
+
+spot_config:
+  # additional instances with identical or better specs than the primary instance type (defaults to only the primary instance)
+  # instance_distribution: [similar_instance_type_1, similar_instance_type_2]
+
+  # minimum number of on demand instances (default: 0)
+  on_demand_base_capacity: 0
+
+  # percentage of on demand instances to use after the on demand base capacity has been met [0, 100] (default: 50)
+  # note: setting this to 0 may hinder cluster scale up when spot instances are not available
+  on_demand_percentage_above_base_capacity: 50
+
+  # max price for spot instances (default: the on-demand price of the primary instance type)
+  # max_price: <float>
+
+  # number of spot instance pools across which to allocate spot instances [1, 20] (default: number of instances in instance distribution)
+  # instance_pools: 3
+
+  # fallback to on-demand instances if spot instances were unable to be allocated (default: true)
+  on_demand_backup: true

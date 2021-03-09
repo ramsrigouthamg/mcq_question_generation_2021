@@ -1,0 +1,47 @@
+https://www.cortex.dev/
+
+Download s2v_reddit_2015_md from:
+https://github.com/explosion/sense2vec
+
+cortex deploy
+cortex deploy --env aws
+
+cortex get
+cortex get <api-name>
+cortex logs <api-name>
+
+cortex delete --env local <api-name>
+cortex delete --env aws <api-name>
+
+cortex cluster up --config=cluster.yaml
+cortex cluster update --config=cluster.yaml
+
+cortex cluster down
+
+________________________________________________________________________
+Cleaning up AWS:
+# set AWS credentials
+export AWS_ACCESS_KEY_ID=***
+export AWS_SECRET_ACCESS_KEY=***
+
+# identify the name of your cortex s3 bucket
+aws s3 ls
+
+# delete the s3 bucket
+aws s3 rb --force s3://<bucket>
+
+
+## Extra Commands
+**********************************************************************************************
+
+cortex cluster up --config=cluster.yaml  # Spin up a cluster
+cortex cluster info --config=cluster.yaml # Check cluster configuration
+cortex deploy --env aws
+cortex get --env aws true-false-generation
+
+Delete :
+cortex delete --env aws true-false-generation
+
+Update cluster with new config:
+cortex cluster down --config=cluster.yaml
+cortex cluster update --config=cluster.yaml

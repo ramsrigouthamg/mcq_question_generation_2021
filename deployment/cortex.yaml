@@ -1,0 +1,19 @@
+# cortex.yaml
+
+- name: t5-question-generation-v1
+  predictor:
+    type: python
+    path: predictor.py
+    config:
+      ACCESS_KEY: 
+      SECRET_KEY: 
+  compute:
+    cpu: 1200m
+  autoscaling:
+    min_replicas: 1
+    max_replicas: 10
+    workers_per_replica: 1
+    target_replica_concurrency: 1 # the desired number of in-flight requests per replica, which the autoscaler tries to maintain
+    window: 10s  # the time over which to average the API's concurrency (default: 60s)
+    # downscale_stabilization_period: <duration>  # the API will not scale below the highest recommendation made during this period (default: 5m)
+    # upscale_stabilization_period: <duration>  # the API will not scale above the lowest recommendation made during this period (default: 1m)

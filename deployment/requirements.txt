@@ -1,0 +1,17 @@
+spacy==2.2.3
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz
+strsim==0.0.3
+nltk==3.3
+flashtext==2.7
+boto3==1.13.9
+transformers==2.8.0
+torch==1.4.0
+sense2vec==1.0.2
+six==1.12.0
+networkx==2.4.0
+numpy==1.16.3
+scipy==1.4.1
+scikit-learn==0.22.1
+unidecode==1.1.1
+future==0.18.2
+joblib==0.14.1
